@@ -12,14 +12,15 @@ export const getSongsByTitle = async (title: string): Promise<Song[]> => {
         return getSongs();
     }
 
+    console.log('title', title);
     const { data, error } = await supabase
         .from('songs')
         .select('*')
-        .ilike('title', `%${title}%}`)
+        .ilike('title', `%${title}%`)
         .order('created_at', { ascending: false });
 
     if (error) {
-        console.log(`GET_SONGS_BY_TITLE:: ${JSON.stringify(error)}`);
+        console.log(`GET_SONGS_BY_TITLE:: ${error}`);
     }
 
     return (data as any) || [];
