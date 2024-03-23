@@ -1,3 +1,63 @@
 {
-  "extends": "next/core-web-vitals"
+    "settings": {
+        "react": {
+            "version": "detect"
+        }
+    },
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:react-hooks/recommended",
+        "plugin:react/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "@typescript-eslint",
+        "@typescript-eslint",
+        "import-newlines",
+        "react",
+        "react-hooks"
+    ],
+    "rules": {
+        "import-newlines/enforce": [
+          "warn",
+          {
+            "items": 2,
+            "max-len": 100,
+            "semi": false
+          }
+        ],
+        "max-len": ["warn", 100],
+        "no-empty-function": "warn",
+        "object-curly-spacing": ["warn", "always"],
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "off",
+        "react/prop-types": "off",
+        "react/react-in-jsx-scope": "off",
+        "semi": "error",
+        "@typescript-eslint/member-delimiter-style": [
+            "warn",
+            {
+                "multiline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                },
+                "singleline": {
+                    "delimiter": "semi",
+                    "requireLast": false
+                }
+            }
+        ],
+        "@typescript-eslint/no-empty-interface": "warn",
+        "@typescript-eslint/no-explicit-any": "off"
+    }
 }
