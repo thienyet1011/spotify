@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 
 import { Song } from "@/types";
 
-export const useGetSongById = async (id?: string) => {
+export const useGetSongById = (id?: string) => {
     const [isLoading, setIsLoading] = useState(false);
     const [song, setSong] = useState<Song | undefined>(undefined);
     const { supabaseClient } = useSessionContext();

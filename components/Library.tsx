@@ -4,6 +4,8 @@ import { TbPlaylist } from "react-icons/tb";
 import { AiOutlinePlus } from "react-icons/ai";
 
 import { useAuthModal } from "@/hooks/useAuthModal";
+import { useOnPlay } from "@/hooks/useOnPlay";
+import { useSubscribeModal } from "@/hooks/useSubscribeModal";
 import { useUploadModal } from "@/hooks/useUploadModal";
 import { useUser } from "@/hooks/useUser";
 
@@ -18,14 +20,21 @@ interface LibraryProps {
 const Library: React.FC<LibraryProps> = ({
   songs,
 }) => {
-  const { user } = useUser();
+  const { subscription, user } = useUser();
 
   const authModal = useAuthModal();
+  const subscribeModal = useSubscribeModal();
   const uploadModal = useUploadModal();
+
+  const onPlay = useOnPlay(songs);
 
   const onClick = () => {
     if (!user) {
       return authModal.onOpen();
+    }
+
+    if (!subscription) {
+      return subscribeModal.onOpen();
     }
 
     return uploadModal.onOpen();
@@ -40,6 +49,7 @@ const Library: React.FC<LibraryProps> = ({
             Your Library
           </p>
         </div>
+
         <AiOutlinePlus 
           onClick={onClick} 
           size={20} 
@@ -56,7 +66,7 @@ const Library: React.FC<LibraryProps> = ({
         {songs.map((item) => (
           <MediaItem
             key={item.id}
-            onClick={() => {}}
+            onClick={(id: string) => onPlay(id)}
             data={item} 
           />
         ))}

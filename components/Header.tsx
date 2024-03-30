@@ -14,6 +14,7 @@ import { RxCaretLeft, RxCaretRight } from "react-icons/rx";
 import Button from "./Button";
 
 import { useAuthModal } from "@/hooks/useAuthModal";
+import { usePlayer } from "@/hooks/usePlayer";
 import { useUser } from "@/hooks/useUser";
 
 interface HeaderProps {
@@ -26,12 +27,15 @@ const Header: React.FC<HeaderProps> = ({
     className,
 }) => {
     const authModal = useAuthModal();
+    const player = usePlayer();
     const router = useRouter();
     const supabaseClient = useSupabaseClient();
+
     const { user } = useUser();
     
     const handleLogout = async () => {
         const { error } = await supabaseClient.auth.signOut();
+        player.reset();
         router.refresh();
 
         if (error) {
