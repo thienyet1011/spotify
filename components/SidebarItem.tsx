@@ -37,6 +37,6 @@ const SidebarItem: React.FC<SidebarItemProps> = ({
             <p className="truncate w-full">{label}</p>
         </Link>
     );
-}
+};
  
 export default SidebarItem;
