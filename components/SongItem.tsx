@@ -22,6 +22,7 @@ const SongItem: React.FC<SongItemProps> = ({
     return (
         <div
             className="
+                song-item
                 relative 
                 group 
                 flex 

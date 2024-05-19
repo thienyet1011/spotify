@@ -6,6 +6,7 @@ import "./globals.css";
 import { Sidebar } from "@/components/Sidebar";
 import Player from "@/components/Player";
 
+import GoogleTagProvider from "@/providers/GoogleTagProvider";
 import ModalProvider from "@/providers/ModalProvider";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
@@ -28,22 +29,39 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const userSongs = await getSongsByUserId();
   const products = await getActiveProductsWithPrices();
+  const userSongs = await getSongsByUserId();
 
   return (
     <html lang="en">
+      <head>
+        {/* Google tag (gtag.js) */}
+        {/* <script async src={`https://www.googletagmanager.com/gtag/js?id=${GTM_ID}`}></script>
+        <script
+          dangerouslySetInnerHTML={{ 
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){
+                dataLayer.push(arguments);
+              }
+
+              gtag('js', new Date());
+              gtag('config', '${GTM_ID}');
+            `
+           }}
+        /> */}
+      </head>
       <body className={font.className}>
         <ToasterProvider />
-        <SupabaseProvider>
-          <UserProvider>
-            <ModalProvider products={products} />
-            <Sidebar songs={userSongs}>
-              {children}
-            </Sidebar>
-            <Player />
-          </UserProvider>
-        </SupabaseProvider>
+        <GoogleTagProvider>
+          <SupabaseProvider>
+            <UserProvider>
+              <ModalProvider products={products} />
+              <Sidebar songs={userSongs}>{children}</Sidebar>
+              <Player />
+            </UserProvider>
+          </SupabaseProvider>
+        </GoogleTagProvider>
       </body>
     </html>
   );
