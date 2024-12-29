@@ -16,14 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel
-
-      - name: Pull vercel environment information
-        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build project artifacts
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Deploy project artifacts
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Build & Deploy to Vercel
+        uses: ./.github/actions/vercel/action.yml
+        with:
+          environment: 'preview'
+          organizationID: ${{ secrets.VERCEL_ORG_ID }}
+          projectID: ${{ secrets.VERCEL_PROJECT_ID }}
+          token: ${{ secrets.VERCEL_TOKEN }}
+          
