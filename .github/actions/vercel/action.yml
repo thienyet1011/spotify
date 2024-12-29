@@ -2,7 +2,7 @@ name: Build and Deploy to Vercel
 description: This action allows to build & deploy the artifacts to Vercel
 
 inputs:
-  environemnt:
+  environment:
     description: Vercel Environment
     required: true
 
