@@ -27,12 +27,12 @@ runs:
 
     - name: Pull vercel environment information
       shell: bash
-      run: vercel pull --yes --token=${{ inputs.token }} ${{ inputs.environment == 'production' && '--environment=production' || '' }}
+      run: vercel pull --yes --token=${{ inputs.token }} ${{ inputs.environment == 'production' && '--environment=production' || '--environment=preview ' }}
 
     - name: Build project artifacts
       shell: bash
-      run: vercel build --token=${{ inputs.token }} ${{ inputs.environment == 'production' && '--prod' || '' }}
+      run: vercel build --yes --token=${{ inputs.token }} ${{ inputs.environment == 'production' && '--prod' || '--target=preview' }}
 
     - name: Deploy project artifacts
       shell: bash
-      run: vercel deploy --prebuilt --token=${{ inputs.token }} ${{ inputs.environment == 'production' && '--prod' || '' }}
+      run: vercel deploy --yes --prebuilt --token=${{ inputs.token }} ${{ inputs.environment == 'production' && '--prod' || '--target=preview' }}

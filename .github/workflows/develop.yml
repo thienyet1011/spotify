@@ -33,7 +33,7 @@ jobs:
       run: yarn install
 
     - name: Build project artifacts
-      run: yarn build --if-present
+      run: yarn build
       
 
       
