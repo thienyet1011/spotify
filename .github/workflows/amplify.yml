@@ -85,8 +85,15 @@ jobs:
           AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
           AWS_REGION: ${{ vars.AWS_REGION }}
 
-      - name: Amplify push
+      # - name: Amplify push
+      #   run: |
+      #     amplify push -y
+      - name: Deploy to Amplify
         run: |
-          amplify push -y
+          curl -X POST \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer ${{ secrets.AWS_ACCESS_KEY }}" \
+          "https://amplify.${{ vars.AWS_REGION }}.amazonaws.com/apps/${{ secrets.AMPLIFY_APP_ID }}/branches/${{ secrets.AMPLIFY_BRANCH_NAME }}/deployments" \
+          -d '{"branchName": "${{ secrets.AMPLIFY_BRANCH_NAME }}"}'
 
     
