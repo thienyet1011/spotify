@@ -16,13 +16,19 @@ on:
 jobs:
   checkout:
     runs-on: ubuntu-latest
+    environment: Production
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
+      NEXT_PUBLIC_GTM_ID: ${{ secrets.NEXT_PUBLIC_GTM_ID }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+      STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
-  setup_node:
-    runs-on: ubuntu-latest
-    steps:
       - name: Setup Node
         uses: actions/setup-node@v4
   
@@ -34,39 +40,16 @@ jobs:
           npm install -g yarn
           yarn install
 
-  credential:
-    runs-on: ubuntu-latest
-    steps:
       - name: Config AWS credential
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-1
-
-  build:
-    needs: 
-      - credential
-    runs-on: ubuntu-latest
-    environment: Production
-    env:
-      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
-      NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-      NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }}
-      NEXT_PUBLIC_GTM_ID: ${{ secrets.NEXT_PUBLIC_GTM_ID }}
-      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
-      STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
-    steps:
+      
       - name: Build
         run: yarn build
-
-  setup_amplify_env:
-    needs: 
-      - credential
-      - build
-    runs-on: ubuntu-latest
-    steps:
+      
       - name: Amplify Pull
         run: |
           amplify pull \
@@ -80,13 +63,13 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
           AWS_REGION: ${{ vars.AWS_REGION }}
-  
+
       - name: Check .amplify folder existence
         id: isInitiated
         uses: andstor/file-existence-action@v3
         with:
           files: '.amplify'
-  
+
       - name: Amplify init
         if: steps.isInitiated.outputs.files_exists == 'true'
         run: |
@@ -101,14 +84,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
           AWS_REGION: ${{ vars.AWS_REGION }}
-
-  deploy:
-    needs: 
-      - credential
-      - build
-      - setup_amplify_env
-    runs-on: ubuntu-latest
-    steps:
+      
       # Only push Backend
       # - name: Amplify push
       #   run: |
