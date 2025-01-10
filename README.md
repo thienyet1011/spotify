@@ -133,14 +133,18 @@ vercel link
 3. Create *access key*
 
 - Go to *AllowConnectToAmplify* user / *Security credentials* / *Access keys* section / *Create access key*
-    + Access key: eg. *AKIAQSOI4OKLTVDGKL53*
 
-    + Secret access key: eg. *6UgHSWKAS2lD35D3tZAt70tBiBxT2GdkVbp/6w1D*
+    ```
+    Access key: eg. *AKIAQSOI4OKLTVDGKL53*
+    Secret access key: eg. *6UgHSWKAS2lD35D3tZAt70tBiBxT2GdkVbp/6w1D*
+    ```
 
 4. Copy *access key* and *secret access key* to GitHub secrets
 
-    + AWS_ACCESS_KEY: "AKIAQSOI4OKLTVDGKL53"
-    + AWS_SECRET_ACCESS_KEY: "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"
+    ```
+    AWS_ACCESS_KEY: "AKIAQSOI4OKLTVDGKL53"
+    AWS_SECRET_ACCESS_KEY: "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"
+    ```
 
 5. Create GitHub variables
 
