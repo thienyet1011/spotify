@@ -107,11 +107,12 @@ jobs:
       #   run: |
       #     amplify push -y
 
-      # - name: Deploy to Amplify
-      #   run: |
-      #     aws amplify start-deployment \
-      #       --app-id ${{ secrets.AMPLIFY_APP_ID }} \
-      #       --branch-name ${{ secrets.AMPLIFY_BRANCH_NAME }} \
-      #       --region ${{ vars.AWS_REGION }}
+      - name: Deploy to Amplify
+        run: |
+          aws amplify start-deployment \
+            --app-id ${{ secrets.AMPLIFY_APP_ID }} \
+            --branch-name ${{ secrets.AMPLIFY_BRANCH_NAME }} \
+            --source-url https://s3.amazonaws.com/artifacts.bk/.next/ \
+            --region ${{ vars.AWS_REGION }}
 
     
