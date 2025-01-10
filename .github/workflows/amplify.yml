@@ -95,6 +95,6 @@ jobs:
           aws amplify start-deployment \
             --app-id ${{ secrets.AMPLIFY_APP_ID }} \
             --branch-name ${{ secrets.AMPLIFY_BRANCH_NAME }} \
-            --region ${{ secrets.AWS_REGION }}
+            --region ${{ vars.AWS_REGION }}
 
     
