@@ -71,11 +71,11 @@ jobs:
         shell: bash
         run: |
           if [[ -f $FILE ]]; then
+            echo ".amplify exists"
             echo "AMPLIFY_PATH=true" >> "$GITHUB_OUTPUT"
           else
+            echo ".amplify non-exists"
             echo "AMPLIFY_PATH=false" >> "$GITHUB_OUTPUT"
-
-          echo $GITHUB_OUTPUT
           fi 
 
       - name: Amplify init
