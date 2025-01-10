@@ -59,7 +59,7 @@ jobs:
           --envName prod
 
       - name: Deploy to Amplify
-        continue-on-error: true
+        if: success() || failure()
         run: |
           amplify pull --appId ${{ secrets.AMPLIFY_APP_ID }} --envName prod -y
           amplify push --envName $ENV_NAME -y
