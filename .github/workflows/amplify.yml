@@ -52,6 +52,7 @@ jobs:
 
       - name: Deploy to Amplify
         run: |
+          amplify pull --appId ${{ secrets.AMPLIFY_APP_ID }} -y
           amplify push -y \
           --appId ${{ secrets.AMPLIFY_APP_ID }}
           --branchName ${{ secrets.AMPLIFY_BRANCH_NAME }}
