@@ -66,12 +66,18 @@ jobs:
 
       - name: Check .amplify folder existence
         id: isInitiated
-        uses: andstor/file-existence-action@v3
-        with:
-          files: '.amplify'
+        env:
+          FILE: .amplify
+        shell: bash
+        run: |
+          if [[ -f $FILE ]]; then
+            echo "AMPLIFY_PATH=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "AMPLIFY_PATH=false" >> "$GITHUB_OUTPUT"
+          fi 
 
       - name: Amplify init
-        if: steps.isInitiated.outputs.files_exists == 'true'
+        if: steps.isInitiated.outputs.AMPLIFY_PATH == 'false'
         run: |
           amplify init \
             --amplify "{\"projectName\":\"mijo\", \"appId\": \"${AMPLIFY_APP_ID}\",\"envName\":\"prod\",\"defaultEditor\":\"code\"}"  \
