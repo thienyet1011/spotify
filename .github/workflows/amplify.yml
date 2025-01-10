@@ -53,7 +53,7 @@ jobs:
       - name: Amplify init
         run: |
           amplify init \
-            --amplify "{\"projectName\":\"mijo\", \"appId\": \"${AMPLIFY_APP_ID}\",\"envName\":\"prod\",\"defaultEditor\":\"code\"}\"  \
+            --amplify "{\"projectName\":\"mijo\", \"appId\": \"${AMPLIFY_APP_ID}\",\"envName\":\"prod\",\"defaultEditor\":\"code\"}"  \
             --providers "{\"awscloudformation\":{\"configLevel\":\"project\",\"useProfile\":false,\"accessKeyId\":\"${AWS_ACCESS_KEY_ID}\",\"secretAccessKey\":\"${AWS_SECRET_ACCESS_KEY}\",\"region\":\"ap-southeast-1\"}}"  \
             --categories "{\"storage\":{\"region\": \"ap-southeast-1\",\"bucketName\":\"artifacts.bk\"}}"  \
             --yes
