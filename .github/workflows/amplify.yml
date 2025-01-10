@@ -54,8 +54,8 @@ jobs:
         run: |
           amplify init --appId ${{ secrets.AMPLIFY_APP_ID }} --envName prod --yes
           amplify push --yes \
-          --appId ${{ secrets.AMPLIFY_APP_ID }}
-          --branchName ${{ secrets.AMPLIFY_BRANCH_NAME }}
+          --appId ${{ secrets.AMPLIFY_APP_ID }} \
+          --branchName ${{ secrets.AMPLIFY_BRANCH_NAME }} \
           --envName prod
         env:
           AMPLIFY_CLI_HEADLESS: true
