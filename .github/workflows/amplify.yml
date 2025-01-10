@@ -1,0 +1,52 @@
+name: Deploy app to AWS Amplify
+on:
+  pull_request:  
+    types: 
+      - closed
+    branches: 
+      - main
+  push:
+    branches: 
+      - main
+
+permissions: 
+  contents: read
+  # id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: action/checkout@v4
+
+      - name: Setup Node
+        uses: action/setup-node@v4
+
+      - name: Install dependencies
+        run: |
+            npm install -g yarn
+            yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: Install Amplify CLI
+        run: npm install -g @aws-amplify/cli
+
+      - name: Config aws credential
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Deploy to Amplify
+        run: |
+          amplify-push -y \
+          --appId ${{ secrets.AMPLIFY_APP_ID }}
+          --branchName ${{ secrets.AMPLIFY_BRANCH_NAME }}
+        env:
+          AMPLIFY_CLI_HEADLESS: true
+
+    
