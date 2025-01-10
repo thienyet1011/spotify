@@ -88,6 +88,8 @@ vercel link
 
     + AMPLIFY_APP_ID: "d1kkyo5238akgj"
     + AMPLIFY_BRANCH_NAME: "main"
+    + AWS_REGION: 
+    + AWS_BUCKET_NAME: "artifacts.bk"
 
 ### Create the IAM user to get credential to deploy app to Amplify
 
