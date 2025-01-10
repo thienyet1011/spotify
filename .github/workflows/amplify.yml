@@ -112,7 +112,7 @@ jobs:
           aws amplify start-deployment \
             --app-id ${{ secrets.AMPLIFY_APP_ID }} \
             --branch-name ${{ secrets.AMPLIFY_BRANCH_NAME }} \
-            --source-url https://s3.amazonaws.com/artifacts.bk/.next/ \
+            --source-url s3://artifacts.bk/.next/ \
             --region ${{ vars.AWS_REGION }}
 
     
