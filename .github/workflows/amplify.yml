@@ -49,6 +49,7 @@ jobs:
           cp -r .next public package.json next.config.mjs deployment/
           cd deployment
           zip -r ../build.zip .
+          cd ..
         working-directory: .
 
       - name: Config AWS credential
