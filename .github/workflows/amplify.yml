@@ -45,7 +45,11 @@ jobs:
 
       - name: Create deployment package
         run: |
-          zip -r build.zip .next public package.json next.config.js
+          mkdir deployment
+          cp -r .next public package.json next.config.js deployment/
+          cd deployment
+          zip -r ../build.zip .
+        working-directory: .
 
       - name: Config AWS credential
         uses: aws-actions/configure-aws-credentials@v4
