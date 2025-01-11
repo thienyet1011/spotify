@@ -77,45 +77,54 @@ vercel link
 
 ## Guide to deploy the app to AWS Amplify
 
-### Create the IAM user to get credential to deploy app to Amplify
+### Create the Amplify Service Role
 
-1. Create user
+- Go to *IAM* / *Roles* / *Create role* / 
+    + Trusted entity type: select *AWS Service*
+        - Use case: selecy *Amplify* / Next
 
-- User name: eg. *AllowConnectToAmplify* / Next
-- Permission options: select *Attach policies directly*
-    + Select *AdministratorAccess-Amplify* policy / Next / Create
+    + Role name: *AmplifyConsoleServiceRole-AmplifyRole* 
 
-3. Create *access key*
-
-- Go to *AllowConnectToAmplify* user / *Security credentials* / *Access keys* section / *Create access key*
+    + Select trusted entities:
 
     ```
-    Access key: eg. *AKIAQSOI4OKLTVDGKL53*
-    Secret access key: eg. *6UgHSWKAS2lD35D3tZAt70tBiBxT2GdkVbp/6w1D*
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Effect": "Allow",
+                "Principal": {
+                    "Service": "amplify.amazonaws.com"
+                },
+                "Action": "sts:AssumeRole",
+                "Condition": {
+                    "StringEquals": {
+                        "aws:SourceAccount": "039612871319"
+                    },
+                    "ArnLike": {
+                        "aws:SourceArn": "arn:aws:amplify:ap-southeast-1:039612871319:apps/*"
+                    }
+                }
+            }
+        ]
+    }
     ```
-
-4. Copy *access key* and *secret access key* to GitHub secrets
-
-    ```
-    AWS_ACCESS_KEY: "AKIAQSOI4OKLTVDGKL53"
-    AWS_SECRET_ACCESS_KEY: "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"
-    ```
-
-5. Create GitHub variables
-
-    + AWS_REGION: "ap-southeast-1"
     
 ### Create the Amplify app
 
-- Go to *https://ap-southeast-1.console.aws.amazon.com/amplify/create/add-repo* / select *Deploy without Git* / Next
-    + App name: eg. mijo
-    + Branch name: eg. main
-    + Method: eg. S3
-        - S3 location of objects to host (eg. s3://<bucket-name> to contains the artifacts after building)
+- Go to *https://ap-southeast-1.console.aws.amazon.com/amplify/apps* / select *Deploy an app*
+    + Choose source code provider: *GitHub* / Next / Sign in with GitHub account
+    + Add repository and branch:
+        - Select *<repository-name>* repository
+        - Select *<branch-name>* branch
 
-- p/s: We should copy the *App ID* and *App Branch Name* to GitHub secrets
+    + App settings
+        - App name: eg. mijo
+        - Frontend build command: ```yarn build```
+        - Build output directory: ```.next```
 
-    + AMPLIFY_APP_ID: "d1kkyo5238akgj"
-    + AMPLIFY_BRANCH_NAME: "main"
-    + AWS_REGION: "ap-southeast-1"
-    + AWS_BUCKET_NAME: "artifacts.bk"
+    + Service role: select the role created before ```AmplifyConsoleServiceRole-AmplifyRole```
+    + Advance settings:
+        - Environment variables: ..
+        - Live package updates:
+            + Package: select ```yarn``` / Next / Save and deploy
