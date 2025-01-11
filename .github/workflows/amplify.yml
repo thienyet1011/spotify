@@ -46,7 +46,7 @@ jobs:
       - name: Create deployment package
         run: |
           mkdir deployment
-          cp -r .next public package.json next.config.js deployment/
+          cp -r .next public package.json next.config.mjs deployment/
           cd deployment
           zip -r ../build.zip .
         working-directory: .
